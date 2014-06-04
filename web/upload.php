@@ -104,12 +104,13 @@ else
         if (move_uploaded_file($_FILES['file']['tmp_name'], "input/".$id) === true)
         {
             $_SESSION['input'] = $id;
+            $_SESSION['step'] = 1;
         
             echo "        <p>\n".
                  "          ".LANG_UPLOAD_SUCCESS."\n".
                  "        </p>\n".
                  "        <div>\n".
-                 "          <a href=\"index.php\">".LANG_UPLOAD_CONTINUE."</a>\n".
+                 "          <a href=\"convert.php\">".LANG_UPLOAD_CONTINUE."</a>\n".
                  "        </div>\n";
         }
         else

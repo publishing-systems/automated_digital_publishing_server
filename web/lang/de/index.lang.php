@@ -28,6 +28,7 @@ define("LANG_INTRO", "<em>Veröffentlichen</em> bedeutet, etwas der Öffentlichk
 define("LANG_OUTRO", "Entwicklung von frei lizenzierten <a href=\"http://www.skreutzer.de/digitales_publizieren/index.html\">Publikationssystemen</a>.");
 define("LANG_OPTION_UPLOAD", "Dokument hochladen");
 define("LANG_OPTION_CONVERT", "Dokument konvertieren");
+define("LANG_OPTION_VIEW_RESULT", "Ergebnis betrachten");
 
 
 

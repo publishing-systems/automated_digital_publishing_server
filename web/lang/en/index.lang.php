@@ -28,6 +28,7 @@ define("LANG_INTRO", "<em>Publishing</em> is the act of making something availab
 define("LANG_OUTRO", "Development of freely licensed <a href=\"http://www.skreutzer.de/digitales_publizieren/index.html\">publishing systems</a>.");
 define("LANG_OPTION_UPLOAD", "Upload document");
 define("LANG_OPTION_CONVERT", "Convert document");
+define("LANG_OPTION_VIEW_RESULT", "View result");
 
 
 

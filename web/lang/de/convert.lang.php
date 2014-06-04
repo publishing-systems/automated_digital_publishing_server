@@ -24,6 +24,9 @@
 
 
 define("LANG_PAGETITLE", "Konvertierung");
+define("LANG_CONTINUE", "Weiter");
+define("LANG_BUSY", "Der Server ist gerade mit einem anderen Auftrag beschäftigt.");
+define("LANG_ERROR", "Es ist ein Fehler aufgetreten.");
 define("LANG_LEAVE", "Verlassen");
 
 

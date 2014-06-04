@@ -63,9 +63,16 @@ echo "        <p style=\"margin-top: 5em; text-align: center;\">\n".
      "        <p style=\"margin-top: 5em; text-align: center;\">\n".
      "          <a href=\"upload.php\">".LANG_OPTION_UPLOAD."</a><br/>\n";
 
-if (isset($_SESSION['input']) === true)
+if (isset($_SESSION['step']) === true)
 {
-    echo "          <a href=\"convert.php\">".LANG_OPTION_CONVERT."</a><br/>\n";
+    if ($_SESSION['step'] === 1)
+    {
+        echo "          <a href=\"convert.php\">".LANG_OPTION_CONVERT."</a><br/>\n";
+    }
+    else if ($_SESSION['step'] === 2)
+    {
+        echo "          <a href=\"convert.php\">".LANG_OPTION_VIEW_RESULT."</a><br/>\n";
+    }
 }
 
 echo "        </p>\n".

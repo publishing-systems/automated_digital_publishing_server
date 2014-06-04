@@ -54,22 +54,62 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".
      "\n".
      "      <div>\n";
 
-$result = include("./automated_digital_publishing/odt2html/odt2html1/caller.php");
-
-if (isset($_SESSION['output']) === true)
+if (isset($_SESSION['step']) === true)
 {
-    if (file_exists("./output/".$_SESSION['output'].".html") === true)
-    {
-        $xml = simplexml_load_file("./output/".$_SESSION['output'].".html");
+    $error = true;
 
-        foreach ($xml->body->children() as $child)
+    if ($_SESSION['step'] === 1)
+    {
+        $result = include("./automated_digital_publishing/workflows/odt2html1_caller.php");
+
+        if (is_numeric($result) === true)
         {
-            echo $child->asXML();
+            $error = false;
+            
+            echo "        <p>\n".
+                 "          ".LANG_BUSY."\n".
+                 "        </p>\n";  
         }
+        else
+        {
+            if (isset($_SESSION['output']) === true)
+            {
+                if (file_exists("./output/".$_SESSION['output'].".html") === true)
+                {
+                    $_SESSION['input'] = $_SESSION['output'];
+                    $_SESSION['step'] = 2;
+                    
+                    $error = false;
+                }
+            }
+        }
+    }
+    else if ($_SESSION['step'] === 2)
+    {
+        if (file_exists("./output/".$_SESSION['input'].".html") === true)
+        {
+            $xml = simplexml_load_file("./output/".$_SESSION['input'].".html");
+
+            foreach ($xml->body->children() as $child)
+            {
+                echo $child->asXML();
+            }
+            
+            $error = false;
+        }
+    }
+    
+    if ($error === false)
+    {
+        echo "        <div>\n".
+             "          <a href=\"convert.php\">".LANG_CONTINUE."</a>\n".
+             "        </div>\n";
     }
     else
     {
-        echo "<pre>".$result."</pre>\n";
+        echo "        <p>\n".
+             "          ".LANG_ERROR."\n".
+             "        </p>\n";    
     }
 }
 
