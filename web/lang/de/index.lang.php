@@ -23,12 +23,19 @@
 
 
 
-define("LANG_PAGETITLE", "Publikationssysteme");
-define("LANG_INTRO", "<em>Veröffentlichen</em> bedeutet, etwas der Öffentlichkeit zur Verfügung zu stellen.");
-define("LANG_OUTRO", "Entwicklung von frei lizenzierten <a href=\"http://www.skreutzer.de/digitales_publizieren/index.html\">Publikationssystemen</a>.");
-define("LANG_OPTION_UPLOAD", "Dokument hochladen");
-define("LANG_OPTION_CONVERT", "Dokument konvertieren");
-define("LANG_OPTION_VIEW_RESULT", "Ergebnis betrachten");
+define("LANG_PAGETITLE", "Willkommen!");
+define("LANG_HEADER", "Willkommen!");
+define("LANG_NAMEFIELD_CAPTION", "Name");
+define("LANG_PASSWORDFIELD_CAPTION", "Passwort");
+define("LANG_SUBMITBUTTON", "Bestätigen");
+define("LANG_INSTALLBUTTON", "Installieren");
+define("LANG_INSTALLDELETEFAILED", "Die Installation wurde bereits erfolgreich durchgeführt, jedoch ist es der Installation nicht gelungen, sich selbst zu löschen. Bitte löschen Sie mindestens die Datei <tt>\$/install/install.php</tt> oder gleich das ganze Verzeichnis <tt>\$/install/</tt> manuell.");
+define("LANG_DBCONNECTFAILED", "Problem beim Zugriff auf die Datenbank.");
+define("LANG_LOGINSUCCESS", "Die Anmeldung war erfolgreich!");
+define("LANG_LOGINFAILED", "Passwort inkorrekt!");
+define("LANG_ENTERBUTTON", "Weiter");
+define("LANG_RETRYLOGINBUTTON", "Erneut versuchen");
+define("LANG_LICENSE", "Lizenzierung");
 
 
 

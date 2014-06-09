@@ -16,20 +16,29 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/automated_digital_publishing/workflows/odt2html1_caller.php
+ * @file $/web/automated_digital_publishing/workflows/odt2html2_caller.inc.php
  * @author Stephan Kreutzer
- * @since 2014-05-31
+ * @since 2014-06-09
  */
 
 
-
-if (isset($_SESSION['input']) === true)
+function odt2html2_caller($jobConfig, $logDirectory)
 {
+    if (file_exists($jobConfig) !== true)
+    {
+        return -1;
+    }
+    
+    if (file_exists($logDirectory) !== true)
+    {
+        return -2;
+    }
+
     $locked = false;
 
     if (file_exists(dirname(__FILE__)."/locked.txt") === true)
     {
-        return -1;
+        return -3;
     }
     else
     {
@@ -37,15 +46,10 @@ if (isset($_SESSION['input']) === true)
         $locked = true;
     }
 
-    $id = md5(uniqid(rand(), true));
-    $_SESSION['output'] = $id;
+    $result = shell_exec("java -classpath ".dirname(__FILE__)." odt2html2 ".$jobConfig." 2>&1");
 
-    $result = shell_exec("java -classpath ".dirname(__FILE__)." odt2html1 ".dirname(__FILE__)."/../../input/".$_SESSION['input']." 2>&1");
+    file_put_contents($logDirectory.md5(uniqid(rand(), true)).".log", $result);
 
-    file_put_contents(dirname(__FILE__)."/../../output/".$id.".log", $result);
-
-    copy(dirname(__FILE__)."/temp/output_4.html", dirname(__FILE__)."/../../output/".$id.".html");
-  
     if ($locked === true)
     {
         unlink(dirname(__FILE__)."/locked.txt");
@@ -53,5 +57,6 @@ if (isset($_SESSION['input']) === true)
     
     return $result;
 }
+
 
 ?>

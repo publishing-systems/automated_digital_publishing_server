@@ -16,19 +16,16 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/lang/de/convert.lang.php
+ * @file $/web/automated_digital_publishing/html2epub/html2epub1/gui/html2epub1_config_create_new/html2epub1_config_create_new_caller.inc.php
  * @author Stephan Kreutzer
- * @since 2014-05-31
+ * @since 2014-06-08
  */
 
 
 
-define("LANG_PAGETITLE", "Konvertierung");
-define("LANG_CONTINUE", "Weiter");
-define("LANG_BUSY", "Der Server ist gerade mit einem anderen Auftrag beschäftigt.");
-define("LANG_ERROR", "Es ist ein Fehler aufgetreten.");
-define("LANG_LEAVE", "Verlassen");
-
-
+function html2epub1_config_create_new_caller($configurationFile)
+{
+    return shell_exec("java -classpath ".dirname(__FILE__)." html2epub1_config_create_new ".$configurationFile." 2>&1");
+}
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2014  Stephan Kreutzer
+/* Copyright (C) 2012-2014  Stephan Kreutzer
  *
  * This file is part of automated_digital_publishing_server.
  *
@@ -17,8 +17,9 @@
  */
 /**
  * @file $/web/index.php
+ * @brief Start page.
  * @author Stephan Kreutzer
- * @since 2014-05-31
+ * @since 2012-06-01
  */
 
 
@@ -32,59 +33,223 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".
      "<!DOCTYPE html\n".
      "    PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n".
      "    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n".
-     "\n".
-     "\n".
      "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n".
-     "\n".
-     "\n".
-     "  <head>\n".
-     "\n".
-     "\n".
-     "      <title>".LANG_PAGETITLE."</title>\n".
-     "\n".
-     "      <meta http-equiv=\"expires\" content=\"1296000\" />\n".
-     "      <meta http-equiv=\"content-type\" content=\"application/xhtml+xml; charset=UTF-8\" />\n".
-     "\n".
-     "\n".
-     "  </head>\n".
-     "\n".
-     "\n".
-     "  <body>\n".
-     "\n".
-     "\n".
-     "      <div>\n";
+     "    <head>\n".
+     "        <title>".LANG_PAGETITLE."</title>\n".
+     "        <link rel=\"stylesheet\" type=\"text/css\" href=\"mainstyle.css\"/>\n".
+     "        <meta http-equiv=\"expires\" content=\"1296000\"/>\n".
+     "        <meta http-equiv=\"content-type\" content=\"application/xhtml+xml; charset=UTF-8\"/>\n".
+     "    </head>\n".
+     "    <body>\n";
 
-require_once("./language_selector.inc.php");
-echo getHTMLLanguageSelector("index.php");
-
-echo "        <p style=\"margin-top: 5em; text-align: center;\">\n".
-     "          ".LANG_INTRO."\n".
-     "        </p>\n".
-     "        <p style=\"margin-top: 5em; text-align: center;\">\n".
-     "          <a href=\"upload.php\">".LANG_OPTION_UPLOAD."</a><br/>\n";
-
-if (isset($_SESSION['step']) === true)
+if (isset($_POST['name']) !== true ||
+    isset($_POST['passwort']) !== true)
 {
-    if ($_SESSION['step'] === 1)
+    require_once("./language_selector.inc.php");
+    echo getHTMLLanguageSelector("index.php");
+
+    echo "        <div class=\"mainbox\">\n".
+         "          <div class=\"mainbox_header\">\n".
+         "            <h1 class=\"mainbox_header_h1\">".LANG_HEADER."</h1>\n".
+         "          </div>\n".
+         "          <div class=\"mainbox_body\">\n";
+
+    if (isset($_POST['install_done']) == true)
     {
-        echo "          <a href=\"convert.php\">".LANG_OPTION_CONVERT."</a><br/>\n";
+        if (@unlink(dirname(__FILE__)."/install/install.php") === true)
+        {
+            clearstatcache();
+        }
+        else
+        {
+            echo "            <p class=\"error\">\n".
+                 "              ".LANG_INSTALLDELETEFAILED."\n".
+                 "            </p>\n";
+        }
     }
-    else if ($_SESSION['step'] === 2)
+
+    if (file_exists("./install/install.php") === true &&
+        isset($_GET['skipinstall']) != true)
     {
-        echo "          <a href=\"convert.php\">".LANG_OPTION_VIEW_RESULT."</a><br/>\n";
+        echo "            <form action=\"install/install.php\" method=\"post\" class=\"installbutton_form\">\n".
+             "              <fieldset>\n".
+             "                <input type=\"submit\" value=\"".LANG_INSTALLBUTTON."\"/><br/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    }
+    else
+    {
+        echo "            <form action=\"index.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                <input name=\"name\" type=\"text\" size=\"20\" maxlength=\"40\"/> ".LANG_NAMEFIELD_CAPTION."<br />\n".
+             "                <input name=\"passwort\" type=\"password\" size=\"20\" maxlength=\"40\"/> ".LANG_PASSWORDFIELD_CAPTION."<br />\n".
+             "                <input type=\"submit\" value=\"".LANG_SUBMITBUTTON."\"/><br/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    }
+
+    require_once("./license.inc.php");
+    echo getHTMLLicenseNotification("license");
+
+    echo "          </div>\n".
+         "        </div>\n".
+         "        <div class=\"footerbox\">\n".
+         "          <a href=\"license.php\" class=\"footerbox_link\">".LANG_LICENSE."</a>\n".
+         "        </div>\n".
+         "    </body>\n".
+         "</html>\n".
+         "\n";
+
+    exit();
+}
+
+
+require_once("./libraries/database.inc.php");
+
+if (Database::Get()->IsConnected() !== true)
+{
+    echo "        <div class=\"mainbox\">\n".
+         "          <div class=\"mainbox_body\">\n".
+         "            <p class=\"error\">\n".
+         "              ".LANG_DBCONNECTFAILED."\n".
+         "            </p>\n".
+         "          </div>\n".
+         "        </div>\n".
+         "        <div class=\"footerbox\">\n".
+         "          <a href=\"license.php\" class=\"footerbox_link\">".LANG_LICENSE."</a>\n".
+         "        </div>\n".
+         "    </body>\n".
+         "</html>\n";
+
+    exit();
+}
+
+
+$user = NULL;
+
+$result = Database::Get()->Query("SELECT `id`,\n".
+                                 "    `salt`,\n".
+                                 "    `password`\n".
+                                 "FROM `".Database::Get()->GetPrefix()."users`\n".
+                                 "WHERE `name` LIKE ?\n",
+                                 array($_POST['name']),
+                                 array(Database::TYPE_STRING));
+
+if (is_array($result) !== true)
+{
+    echo "        <div class=\"mainbox\">\n".
+         "          <div class=\"mainbox_body\">\n".
+         "            <p class=\"error\">\n".
+         "              ".LANG_DBCONNECTFAILED."\n".
+         "            </p>\n".
+         "          </div>\n".
+         "        </div>\n".
+         "        <div class=\"footerbox\">\n".
+         "          <a href=\"license.php\" class=\"footerbox_link\">".LANG_LICENSE."</a>\n".
+         "        </div>\n".
+         "    </body>\n".
+         "</html>\n";
+
+    exit();
+}
+
+
+if (count($result) === 0)
+{
+    // The user doesn't exist, so insert him.
+
+    require_once("./libraries/user_management.inc.php");
+
+    $id = insertNewUser($_POST['name'], $_POST['passwort']);
+
+    if ($id > 0)
+    {
+        $user = array("id" => $id);
+    }
+    else
+    {
+        echo "        <div class=\"mainbox\">\n".
+             "          <div class=\"mainbox_body\">\n".
+             "            <p class=\"error\">\n".
+             "              ".LANG_DBCONNECTFAILED."\n".
+             "            </p>\n".
+             "          </div>\n".
+             "        </div>\n".
+             "        <div class=\"footerbox\">\n".
+             "          <a href=\"license.php\" class=\"footerbox_link\">".LANG_LICENSE."</a>\n".
+             "        </div>\n".
+             "    </body>\n".
+             "</html>\n";
+
+        exit();
+    }
+}
+else
+{
+    // The user does already exist, he wants to login.
+
+    if ($result[0]['password'] === hash('sha512', $result[0]['salt'].$_POST['passwort']))
+    {
+        $user = array("id" => $result[0]['id']);
+    }
+    else
+    {
+        /**
+         * @todo Security could be improved by not telling that the user
+         *     actually exists and just the password was incorrect.
+         */
+
+        echo "        <div class=\"mainbox\">\n".
+             "          <div class=\"mainbox_body\">\n".
+             "            <p class=\"error\">\n".
+             "              ".LANG_LOGINFAILED."\n".
+             "            </p>\n".
+             "            <form action=\"index.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                <input type=\"submit\" value=\"".LANG_RETRYLOGINBUTTON."\"/><br/>\n".
+             "              </fieldset>\n".
+             "            </form>\n".
+             "          </div>\n".
+             "        </div>\n".
+             "        <div class=\"footerbox\">\n".
+             "          <a href=\"license.php\" class=\"footerbox_link\">".LANG_LICENSE."</a>\n".
+             "        </div>\n".
+             "    </body>\n".
+             "</html>\n";
+
+        exit();
     }
 }
 
-echo "        </p>\n".
-     "        <p style=\"margin-top: 5em; text-align: center;\">\n".
-     "          ".LANG_OUTRO."\n".
-     "        </p>\n".
-     "      </div>\n".
-     "\n".
-     "\n".
-     "  </body>\n".
-     "\n".
-     "\n".
+if (is_array($user) === true)
+{
+    $_SESSION['user_id'] = $user['id'];
+    /**
+     * @todo Escape $_POST['name'] for use in session (may find its way
+     *     into HTML output and SQL queries)!
+     */
+    $_SESSION['user_name'] = $_POST['name'];
+
+    echo "        <div class=\"mainbox\">\n".
+         "          <div class=\"mainbox_body\">\n".
+         "            <p class=\"success\">\n".
+         "              ".LANG_LOGINSUCCESS."\n".
+         "            </p>\n".
+         "            <form action=\"projects.php\" method=\"post\">\n".
+         "              <fieldset>\n".
+         "                <input type=\"submit\" value=\"".LANG_ENTERBUTTON."\"/><br/>\n".
+         "              </fieldset>\n".
+         "            </form>\n".
+         "          </div>\n".
+         "        </div>\n".
+         "        <div class=\"footerbox\">\n".
+         "          <a href=\"license.php\" class=\"footerbox_link\">".LANG_LICENSE."</a>\n".
+         "        </div>\n";
+}
+
+echo "    </body>\n".
      "</html>\n";
+
+
 
 ?>

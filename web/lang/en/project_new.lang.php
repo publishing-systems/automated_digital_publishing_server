@@ -16,18 +16,24 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/lang/en/convert.lang.php
+ * @file $/web/lang/en/project_new.lang.php
  * @author Stephan Kreutzer
- * @since 2014-05-31
+ * @since 2014-06-08
  */
 
 
 
-define("LANG_PAGETITLE", "Conversion");
+define("LANG_PAGETITLE", "Create Project");
+define("LANG_HEADER", "Create new project");
+define("LANG_PROJECTNEWBUTTON", "Create");
+define("LANG_PROJECTTITLECAPTION", "Name of the project");
+define("LANG_FINDPROJECTSDIRECTORYFAILED", "Project directory is missing.");
+define("LANG_FINDPROJECTLISTFAILED", "Project list is missing.");
+define("LANG_READPROJECTLISTFAILED", "Can't read project list.");
+define("LANG_WRITETOPROJECTLISTFAILED", "Can't write to project list.");
+define("LANG_PROJECTCREATEDSUCCESSFULLY", "Project created successfully.");
 define("LANG_CONTINUE", "Continue");
-define("LANG_BUSY", "Server is already busy with some other job.");
-define("LANG_ERROR", "An error has occurred.");
-define("LANG_LEAVE", "Leave");
+define("LANG_LICENSE", "Licensing");
 
 
 

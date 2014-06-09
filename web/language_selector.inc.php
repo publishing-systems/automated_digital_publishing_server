@@ -30,7 +30,9 @@ require_once(dirname(__FILE__)."/libraries/languagelib.inc.php");
 
 function getHTMLLanguageSelector($targetPage,
                                  $cssClassLanguageselector = "languageselector",
+                                 $cssClassLanguageselectorText = "languageselector_text",
                                  $cssClassLanguageselectorForm = "languageselector_form",
+                                 $cssClassLanguageselectorFormFieldset = "languageselector_form_fieldset",
                                  $cssClassLanguageselectorFormSelect = "languageselector_form_select",
                                  $cssClassLanguageselectorFormSubmitbutton = "languageselector_form_submitbutton")
 {
@@ -70,9 +72,9 @@ function getHTMLLanguageSelector($targetPage,
             }
 
             $html .= "<div class=\"".$cssClassLanguageselector."\">\n".
-                     "  ".LANG_LANGUAGESELECTOR_DESCRIPTION."<br/>\n".
+                     "  <span class=\"".$cssClassLanguageselectorText."\">".LANG_LANGUAGESELECTOR_DESCRIPTION."</span><br/>\n".
                      "  <form action=\"".$targetPage."\" method=\"post\" class=\"".$cssClassLanguageselectorForm."\">\n".
-                     "    <fieldset>\n".
+                     "    <fieldset class=\"".$cssClassLanguageselectorFormFieldset."\">\n".
                      "      <select name=\"language\" size=\"1\" class=\"".$cssClassLanguageselectorFormSelect."\">\n";
 
             foreach ($languages as $language => $displayName)

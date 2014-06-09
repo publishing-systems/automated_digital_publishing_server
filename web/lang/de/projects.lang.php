@@ -16,26 +16,22 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/lang/en/index.lang.php
+ * @file $/web/lang/de/projects.lang.php
  * @author Stephan Kreutzer
- * @since 2014-05-31
+ * @since 2014-06-08
  */
 
 
 
-define("LANG_PAGETITLE", "Welcome!");
-define("LANG_HEADER", "Welcome!");
-define("LANG_NAMEFIELD_CAPTION", "Name");
-define("LANG_PASSWORDFIELD_CAPTION", "Password");
-define("LANG_SUBMITBUTTON", "OK");
-define("LANG_INSTALLBUTTON", "Install");
-define("LANG_INSTALLDELETEFAILED", "The installation was already completed successfully, but it was unable to delete itself. Please delete at least the file <tt>\$/install/install.php</tt> or additionally the entire directory <tt>\$/install/</tt> manually.");
-define("LANG_DBCONNECTFAILED", "Can't connect to database.");
-define("LANG_LOGINSUCCESS", "Login was successful!");
-define("LANG_LOGINFAILED", "Password incorrect!");
-define("LANG_ENTERBUTTON", "Continue");
-define("LANG_RETRYLOGINBUTTON", "Retry");
-define("LANG_LICENSE", "Licensing");
+define("LANG_PAGETITLE", "Projekte");
+define("LANG_HEADER", "Projektübersicht");
+define("LANG_CREATEPROJECTSDIRECTORYFAILED", "Die Projektliste konnte nicht angelegt werden.");
+define("LANG_WRITEPROJECTLISTFAILED", "Die Projektliste konnte nicht angelegt werden.");
+define("LANG_FINDPROJECTLISTFAILED", "Die Projektliste ist nicht vorhanden.");
+define("LANG_READPROJECTLISTFAILED", "Die Projektliste konnte nicht eingelesen werden.");
+define("LANG_PROJECTEDITBUTTON", "Bearbeiten");
+define("LANG_PROJECTNEWBUTTON", "Neu");
+define("LANG_LICENSE", "Lizenzierung");
 
 
 
