@@ -261,14 +261,31 @@ function GetProjectConfigurationFile($projectNr)
 
     foreach ($xml->project as $project)
     {
-        if (isset($project->attributes()['config']) !== true)
+        $attributes = $project->attributes();
+        
+        if (isset($attributes) !== true)
+        {
+            continue;
+        }
+        
+        if (isset($attributes['config']) !== true)
         {
             continue;
         }
 
         if ($i == (int)$_POST['project_nr'])
         {
-            $selectedProject = dom_import_simplexml($project->attributes()['config'])->textContent;
+            $selectedProject = dom_import_simplexml($attributes['config']);
+            
+            if ($selectedProject == false)
+            {
+                $selectedProject = null;
+            }
+            else
+            {
+                $selectedProject = $selectedProject->textContent;
+            }
+
             break;
         }
 

@@ -170,14 +170,31 @@ function GetProjectConfigurationFile($projectNr)
 
     foreach ($xml->project as $project)
     {
-        if (isset($project->attributes()['config']) !== true)
+        $attributes = $project->attributes();
+        
+        if (isset($attributes) !== true)
+        {
+            continue;
+        }
+    
+        if (isset($attributes['config']) !== true)
         {
             continue;
         }
 
         if ($i == (int)$_POST['project_nr'])
         {
-            $selectedProject = dom_import_simplexml($project->attributes()['config'])->textContent;
+            $selectedProject = dom_import_simplexml($attributes['config']);
+            
+            if ($selectedProject == false)
+            {
+                $selectedProject = null;
+            }
+            else
+            {
+                $selectedProject = $selectedProject->textContent;
+            }
+
             break;
         }
 
@@ -274,8 +291,15 @@ function PrintInputFiles($projectConfigurationFile)
             continue;
         }
         
-        if (isset($child->attributes()['path']) !== true ||
-            isset($child->attributes()['display']) !== true)
+        $attributes = $child->attributes();
+        
+        if (isset($attributes) !== true)
+        {
+            continue;
+        }
+        
+        if (isset($attributes['path']) !== true ||
+            isset($attributes['display']) !== true)
         {
             continue;
         }
@@ -296,8 +320,15 @@ function PrintInputFiles($projectConfigurationFile)
             continue;
         }
         
-        if (isset($child->attributes()['path']) !== true ||
-            isset($child->attributes()['display']) !== true)
+        $attributes = $child->attributes();
+        
+        if (isset($attributes) !== true)
+        {
+            continue;
+        }
+        
+        if (isset($attributes['path']) !== true ||
+            isset($attributes['display']) !== true)
         {
             continue;
         }
@@ -323,7 +354,7 @@ function PrintInputFiles($projectConfigurationFile)
             echo "<input type=\"submit\" name=\"upload_down\" value=\"".LANG_UPLOADFILEDOWNBUTTON."\"/>\n";
         }
 
-        echo "                  <input type=\"submit\" name=\"upload_delete\" value=\"".LANG_UPLOADFILEDELETEBUTTON."\" disabled=\"disabled\"/> ".$child->attributes()['display']."\n".
+        echo "                  <input type=\"submit\" name=\"upload_delete\" value=\"".LANG_UPLOADFILEDELETEBUTTON."\" disabled=\"disabled\"/> ".$attributes['display']."\n".
              "                  <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
              "                  <input type=\"hidden\" name=\"upload_nr\" value=\"".$i."\"/>\n".
              "                </fieldset>\n".
@@ -388,7 +419,36 @@ function GetHtml2epub1ConfigurationFile($projectConfigurationFile)
         return -3;
     }
 
-    if (isset($xml->in->html2epub1->attributes()['config']) !== true)
+    if (isset($xml->in) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+    
+    if (isset($xml->in->html2epub1) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+    
+    $attributes = $xml->in->html2epub1->attributes();
+    
+    if (isset($attributes) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+
+    if (isset($attributes['config']) !== true)
     {
         echo "            <p>\n".
              "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
@@ -397,7 +457,20 @@ function GetHtml2epub1ConfigurationFile($projectConfigurationFile)
         return -4;
     }
 
-    $html2epub1ConfigurationFile = dom_import_simplexml($xml->in->html2epub1->attributes()['config'])->textContent;
+    $html2epub1ConfigurationFile = dom_import_simplexml($attributes['config']);
+    
+    if ($html2epub1ConfigurationFile == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -4;
+    }
+    else
+    {
+        $html2epub1ConfigurationFile = $html2epub1ConfigurationFile->textContent;
+    }
 
     if (file_exists("./projects/user_".$_SESSION['user_id']."/".$html2epub1ConfigurationFile) !== true)
     {

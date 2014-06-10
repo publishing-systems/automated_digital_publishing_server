@@ -141,12 +141,28 @@ function ReadProjectList()
 
     foreach ($xml->project as $project)
     {
-        if (isset($project->attributes()['config']) !== true)
+        $attributes = $project->attributes();
+        
+        if (isset($attributes) !== true)
+        {
+            continue;
+        }
+    
+        if (isset($attributes['config']) !== true)
         {
             continue;
         }
 
-        $title = dom_import_simplexml($project)->textContent;
+        $title = dom_import_simplexml($project);
+        
+        if ($title == false)
+        {
+            $title = "";
+        }
+        else
+        {
+            $title = $title->textContent;
+        }
 
         echo "            <form action=\"project_edit.php\" method=\"post\">\n".
              "              <fieldset>\n".

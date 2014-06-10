@@ -158,9 +158,16 @@ class Database
 
         if (@$stmt->execute() == false)
         {
-            if (isset($this->pdo->errorInfo()[2]) === true)
+            $errorInfo = $this->pdo->errorInfo();
+            
+            if (isset($errorInfo) === true)
             {
-                $this->lastErrorMessage = $this->pdo->errorInfo()[2];
+                $errorInfo = $errorInfo[2];
+                
+                if (isset($errorInfo) === true)
+                {
+                    $this->lastErrorMessage = $errorInfo;
+                }
             }
 
             return -10;
@@ -235,9 +242,16 @@ class Database
 
         if (@$stmt->execute() == false)
         {
-            if (isset($this->pdo->errorInfo()[2]) === true)
+            $errorInfo = $this->pdo->errorInfo();
+            
+            if (isset($errorInfo) === true)
             {
-                $this->lastErrorMessage = $this->pdo->errorInfo()[2];
+                $errorInfo = $errorInfo[2];
+                
+                if (isset($errorInfo) === true)
+                {
+                    $this->lastErrorMessage = $errorInfo;
+                }
             }
 
             return -10;
@@ -264,9 +278,16 @@ class Database
 
         if ($result == false)
         {
-            if (isset($this->pdo->errorInfo()[2]) === true)
+            $errorInfo = $this->pdo->errorInfo();
+            
+            if (isset($errorInfo) === true)
             {
-                $this->lastErrorMessage = $this->pdo->errorInfo()[2];
+                $errorInfo = $errorInfo[2];
+                
+                if (isset($errorInfo) === true)
+                {
+                    $this->lastErrorMessage = $errorInfo;
+                }
             }
 
             return false;
@@ -274,9 +295,16 @@ class Database
 
         if (get_class($result) != "PDOStatement")
         {
-            if (isset($this->pdo->errorInfo()[2]) === true)
+            $errorInfo = $this->pdo->errorInfo();
+            
+            if (isset($errorInfo) === true)
             {
-                $this->lastErrorMessage = $this->pdo->errorInfo()[2];
+                $errorInfo = $errorInfo[2];
+                
+                if (isset($errorInfo) === true)
+                {
+                    $this->lastErrorMessage = $errorInfo;
+                }
             }
 
             return false;
