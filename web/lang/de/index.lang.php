@@ -35,6 +35,7 @@ define("LANG_LOGINSUCCESS", "Die Anmeldung war erfolgreich!");
 define("LANG_LOGINFAILED", "Passwort inkorrekt!");
 define("LANG_ENTERBUTTON", "Weiter");
 define("LANG_RETRYLOGINBUTTON", "Erneut versuchen");
+define("LANG_LOGINDESCRIPTION", "Bitte wählen Sie Benutzername und Passwort. Wenn ein Benutzer mit dem angegebenen Namen bereits existiert, wird zusätzlich eine Passwort-Überprüfung durchgeführt.");
 define("LANG_LICENSE", "Lizenzierung");
 
 

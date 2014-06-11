@@ -79,7 +79,10 @@ if (isset($_POST['name']) !== true ||
     }
     else
     {
-        echo "            <form action=\"index.php\" method=\"post\">\n".
+        echo "            <p>\n".
+             "              ".LANG_LOGINDESCRIPTION."\n".
+             "            </p>\n".
+             "            <form action=\"index.php\" method=\"post\">\n".
              "              <fieldset>\n".
              "                <input name=\"name\" type=\"text\" size=\"20\" maxlength=\"40\"/> ".LANG_NAMEFIELD_CAPTION."<br />\n".
              "                <input name=\"passwort\" type=\"password\" size=\"20\" maxlength=\"40\"/> ".LANG_PASSWORDFIELD_CAPTION."<br />\n".

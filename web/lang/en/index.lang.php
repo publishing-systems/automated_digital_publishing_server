@@ -35,6 +35,7 @@ define("LANG_LOGINSUCCESS", "Login was successful!");
 define("LANG_LOGINFAILED", "Password incorrect!");
 define("LANG_ENTERBUTTON", "Continue");
 define("LANG_RETRYLOGINBUTTON", "Retry");
+define("LANG_LOGINDESCRIPTION", "Just pick a username and password. If a user with the provided name already exists, password authentication will take place.");
 define("LANG_LICENSE", "Licensing");
 
 
