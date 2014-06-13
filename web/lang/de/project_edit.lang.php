@@ -55,6 +55,7 @@ define("LANG_METADATA_SUBMIT", "Übernehmen");
 define("LANG_GENERATEPROJECT", "Formate erzeugen");
 define("LANG_DOWNLOADHTML", "Download HTML");
 define("LANG_DOWNLOADEPUB", "Download EPUB");
+define("LANG_DOWNLOADPDF", "Download PDF");
 define("LANG_DONE", "Fertig");
 define("LANG_LICENSE", "Lizenzierung");
 

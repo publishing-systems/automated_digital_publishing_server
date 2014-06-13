@@ -119,6 +119,13 @@ echo "            <form action=\"project_generate.php\" method=\"post\">\n".
      "                <input type=\"hidden\" name=\"format\" value=\"epub\"/>\n".
      "              </fieldset>\n".
      "            </form>\n".
+     "            <form action=\"project_download.php\" method=\"post\">\n".
+     "              <fieldset>\n".
+     "                <input type=\"submit\" value=\"".LANG_DOWNLOADPDF."\"/>\n".
+     "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+     "                <input type=\"hidden\" name=\"format\" value=\"pdf\"/>\n".
+     "              </fieldset>\n".
+     "            </form>\n".
      "            <form action=\"projects.php\" method=\"post\">\n".
      "              <fieldset>\n".
      "                <input type=\"submit\" value=\"".LANG_DONE."\"/>\n".

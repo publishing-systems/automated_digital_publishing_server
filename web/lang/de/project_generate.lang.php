@@ -46,6 +46,8 @@ define("LANG_EPUBCONFIGURATIONNOTCONFIGURED", "Die anzuwendende Konfiguration f√
 define("LANG_EPUBCONFIGURATIONMISSING", "Die Konfiguration f√ºr die EPUB-Konvertierung ist nicht vorhanden.");
 define("LANG_GENERATEEPUBFAILED", "Konvertierung nach EPUB fehlgeschlagen.");
 define("LANG_GENERATEEPUBSUCCESS", "Konvertierung nach EPUB erfolgreich abgeschlossen.");
+define("LANG_GENERATEPDFFAILED", "Konvertierung nach PDF fehlgeschlagen.");
+define("LANG_GENERATEPDFSUCCESS", "Konvertierung nach PDF erfolgreich abgeschlossen.");
 define("LANG_LICENSE", "Lizenzierung");
 
 

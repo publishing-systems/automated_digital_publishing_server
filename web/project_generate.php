@@ -46,7 +46,7 @@ if (isset($_POST['step']) === true)
         $step = (int)$_POST['step'];
     }
     
-    if ($step > 2 ||
+    if ($step > 3 ||
         $step < 1)
     {
         $step = 1;
@@ -119,6 +119,35 @@ if ($success === true &&
     {
         echo "            <p>\n".
              "              <span class=\"success\">".LANG_GENERATEEPUBSUCCESS."</span>\n".
+             "            </p>\n".
+             "            <form action=\"project_generate.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                <input type=\"submit\" value=\"".LANG_CONTINUE."\"/>\n".
+             "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+             "                <input type=\"hidden\" name=\"step\" value=\"3\"/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    }
+    else
+    {
+        echo "            <form action=\"project_edit.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                <input type=\"submit\" value=\"".LANG_LEAVE."\"/>\n".
+             "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    
+        $success = false;
+    }
+}
+
+if ($success === true &&
+    $step === 3)
+{
+    if (GeneratePDF($projectConfigurationFile) === 0)
+    {
+        echo "            <p>\n".
+             "              <span class=\"success\">".LANG_GENERATEPDFSUCCESS."</span>\n".
              "            </p>\n".
              "            <form action=\"project_edit.php\" method=\"post\">\n".
              "              <fieldset>\n".
@@ -467,6 +496,115 @@ function GenerateEPUB($projectConfigurationFile)
     
     return 0;
 }
+
+
+function GeneratePDF($projectConfigurationFile)
+{
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTSDIRECTORYFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -1;
+    }
+
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -2;
+    }
+    
+    $xml = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile);
+
+    if ($xml == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+
+    if (isset($xml->out->outFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_NOHTMLOUTPUTFILECONFIGURED."</span>\n".
+             "            </p>\n";
+    
+        return -4;
+    }
+    
+    if (isset($xml->out->outFile['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_NOHTMLOUTPUTFILEPATHCONFIGURED."</span>\n".
+             "            </p>\n";
+    
+        return -5;
+    }
+
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->out->outFile['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_NOHTMLOUTPUTFOUND."</span>\n".
+             "            </p>\n";
+    
+        return -6;
+    }
+
+    $id = md5(uniqid(rand(), true));
+
+    require_once("./automated_digital_publishing/workflows/html2pdf1_caller.inc.php");
+
+    $result = html2pdf1_caller("./projects/user_".$_SESSION['user_id']."/".$xml->out->outFile['path'], 
+                               dirname(__FILE__)."/projects/user_".$_SESSION['user_id']."/");
+
+    if (is_numeric($result) == true)
+    {
+        if ($result === -4)
+        {
+            echo "            <p>\n".
+                 "              <span>".LANG_BUSY."</span>\n".
+                 "            </p>\n";
+             
+             return -9;
+        }
+        else
+        {
+            echo "            <p>\n".
+                 "              <span class=\"error\">".LANG_GENERALERROR."</span>\n".
+                 "            </p>\n";
+
+            return -10;
+        }
+    }
+
+    if (file_exists("./automated_digital_publishing/workflows/temp/pdf/output.pdf") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_GENERATEPDFFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -10;
+    }
+    else
+    {
+        if (copy("./automated_digital_publishing/workflows/temp/pdf/output.pdf",
+                 "./projects/user_".$_SESSION['user_id']."/".substr($xml->out->outFile['path'], 0, strrpos($xml->out->outFile['path'], '.')).".pdf") !== true)
+        {
+            echo "            <p>\n".
+                 "              <span class=\"error\">".LANG_GENERATEEPUBFAILED."</span>\n".
+                 "            </p>\n";
+        }
+    }
+    
+    return 0;
+}
+
 
 
 ?>

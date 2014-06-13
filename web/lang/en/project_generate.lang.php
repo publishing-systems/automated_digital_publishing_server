@@ -46,6 +46,8 @@ define("LANG_EPUBCONFIGURATIONNOTCONFIGURED", "Configuration for EPUB conversion
 define("LANG_EPUBCONFIGURATIONMISSING", "Configuration for EPUB conversion is missing.");
 define("LANG_GENERATEEPUBFAILED", "Conversion to EPUB failed.");
 define("LANG_GENERATEEPUBSUCCESS", "Conversion to EPUB completed successfully.");
+define("LANG_GENERATEPDFFAILED", "Conversion to PDF failed.");
+define("LANG_GENERATEPDFSUCCESS", "Conversion to PDF completed successfully.");
 define("LANG_LICENSE", "Licensing");
 
 

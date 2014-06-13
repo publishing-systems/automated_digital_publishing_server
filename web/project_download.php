@@ -40,7 +40,8 @@ if (is_numeric($_POST['project_nr']) !== true ||
 }
 
 if ($_POST['format'] !== "html" &&
-    $_POST['format'] !== "epub")
+    $_POST['format'] !== "epub" &&
+    $_POST['format'] !== "pdf")
 {
     exit();
 }
@@ -237,6 +238,11 @@ function ProvideDownload($projectConfigurationFile, $format)
         {
             header("Content-type:application/epub+zip");
             header("Content-Disposition:attachment;filename=download.epub");
+        }
+        else if ($format === "pdf")
+        {
+            header("Content-type:application/pdf");
+            header("Content-Disposition:attachment;filename=download.pdf");
         }
     
         readfile($filePath);
