@@ -174,6 +174,7 @@ function GetProjectConfigurationFile($projectNr)
     
     $i = 1;
     $selectedProject = false;
+    $selectedProjectType = "";
 
     foreach ($xml->project as $project)
     {
@@ -200,6 +201,18 @@ function GetProjectConfigurationFile($projectNr)
             else
             {
                 $selectedProject = $selectedProject->textContent;
+            }
+            
+            $selectedProjectType = dom_import_simplexml($attributes['type']);
+            
+            if ($selectedProjectType == false)
+            {
+                /** @todo Remove default value for legacy config files. */
+                $selectedProjectType = "source_odt";
+            }
+            else
+            {
+                $selectedProjectType = $selectedProjectType->textContent;
             }
 
             break;

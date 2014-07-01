@@ -53,11 +53,16 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".
      "          </div>\n".
      "          <div class=\"mainbox_body\">\n";
      
-if (isset($_POST['title']) == false)
+if (isset($_POST['title']) == false ||
+    isset($_POST['type']) == false)
 {
     echo "            <form action=\"project_new.php\" method=\"post\">\n".
          "              <fieldset>\n".
          "                <input name=\"title\" type=\"text\" size=\"20\" maxlength=\"40\"/> ".LANG_PROJECTTITLECAPTION."<br/>\n".
+         "                <select name=\"type\" size=\"1\">\n".
+         "                  <option value=\"1\">".LANG_PROJECTTYPE1."</option>\n".
+         "                  <option value=\"2\">".LANG_PROJECTTYPE2."</option>\n".
+         "                </select> ".LANG_PROJECTTYPECAPTION."<br/>\n".
          "                <input type=\"submit\" value=\"".LANG_PROJECTNEWBUTTON."\"/>\n".
          "              </fieldset>\n".
          "            </form>\n";
@@ -67,7 +72,7 @@ else
 {
     $success = true;
 
-    if (AddNewProject($_POST['title']) !== 0)
+    if (AddNewProject($_POST['title'], $_POST['type']) !== 0)
     {
         $success = false;
     }
@@ -95,7 +100,7 @@ echo "          </div>\n".
 
 
 
-function AddNewProject($title)
+function AddNewProject($title, $type)
 {
     if (file_exists("./projects/user_".$_SESSION['user_id']."/") !== true)
     {
@@ -130,6 +135,15 @@ function AddNewProject($title)
 
     $project = $xml->addChild("project", htmlspecialchars($title));
     $project->addAttribute("config", $id.".xml");
+    
+    if ($_POST['type'] == "1")
+    {
+        $project->addAttribute("type", "source_odt");
+    }
+    else
+    {
+        $project->addAttribute("type", "source_epub2");
+    }
     
     $success = @file_put_contents("./projects/user_".$_SESSION['user_id']."/projects.xml", $xml->asXML());
     
