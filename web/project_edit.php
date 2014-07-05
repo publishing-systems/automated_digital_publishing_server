@@ -361,16 +361,6 @@ function PrintInputFiles($projectConfigurationFile)
         {
             continue;
         }
-        
-        // Fallback for legacy projects with no type, default is
-        // source_odt.
-        if (isset($attributes['type']) === true)
-        {
-            if ($attributes['type'] !== "source_odt")
-            {
-                continue;
-            }
-        }
 
         echo "              <form action=\"project_edit.php\" method=\"post\">\n".
              "                <fieldset>\n";
