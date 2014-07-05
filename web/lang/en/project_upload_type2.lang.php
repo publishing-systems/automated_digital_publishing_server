@@ -16,9 +16,9 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/lang/en/project_upload.lang.php
+ * @file $/web/lang/en/project_upload_type2.lang.php
  * @author Stephan Kreutzer
- * @since 2014-06-08
+ * @since 2014-07-05
  */
 
 
@@ -31,7 +31,7 @@ define("LANG_READPROJECTLISTFAILED", "Can't read project list.");
 define("LANG_WRONGPROJECTTYPE", "Wrong project type.");
 define("LANG_FINDPROJECTINPROJECTLISTFAILED", "Can't find project in the project list.");
 define("LANG_FINDPROJECTCONFIGURATIONFAILED", "Project configuration is missing.");
-define("LANG_UPLOAD_DESCRIPTION", "Currently only OpenOffice/<a href=\"http://www.libreoffice.org\">LibreOffice</a> documents (file ending *.odt) are accepted which were created with the document template “<a href=\"template1.ott\">template1.ott</a>”. By uploading, you assure that you're the copyright owner of the document or that you've got permission to distribute it. If an upload would violate the rights of others, you're not allowed to use this function! You grant us permission to process the uploaded document and you agree that we're not liable for loss or theft of the document on our server.");
+define("LANG_UPLOAD_DESCRIPTION", "Please upload an EPUB2 file. By uploading, you assure that you're the copyright owner of the file and its contents or that you've got permission to distribute it. If an upload would violate the rights of others, you're not allowed to use this function! You grant us permission to process and publish the uploaded file and its contents, and you agree that we're not liable for loss or theft of the file on our server.");
 define("LANG_UPLOAD_SUBMIT", "Upload");
 define("LANG_UPLOAD_GENERAL_ERROR", "A general error occurred.");
 define("LANG_UPLOAD_SPECIFIC_ERROR_PRE", "Error ");

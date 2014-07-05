@@ -16,10 +16,10 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/project_upload.php
- * @brief Upload input files for a project.
+ * @file $/web/project_upload_type2.php
+ * @brief Upload input files for a project based upon an EPUB2 source.
  * @author Stephan Kreutzer
- * @since 2014-06-08
+ * @since 2014-07-05
  */
 
 
@@ -39,7 +39,7 @@ if (is_numeric($_POST['project_nr']) !== true)
 
 
 require_once("./libraries/languagelib.inc.php");
-require_once(getLanguageFile("project_upload"));
+require_once(getLanguageFile("project_upload_type2"));
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".
      "<!DOCTYPE html\n".
@@ -65,9 +65,9 @@ if (isset($_POST['upload']) !== true)
          "              ".LANG_UPLOAD_DESCRIPTION."\n".
          "            </p>\n".
          "\n".
-         "            <form enctype=\"multipart/form-data\" action=\"project_upload.php\" method=\"post\">\n".
+         "            <form enctype=\"multipart/form-data\" action=\"project_upload_type2.php\" method=\"post\">\n".
          "              <fieldset>\n".
-         "                <input type=\"file\" name=\"file\" accept=\"application/vnd.oasis.opendocument.text\"/><br/>\n".
+         "                <input type=\"file\" name=\"file\" accept=\"application/application/epub+zip\"/><br/>\n".
          "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
          "                <input type=\"submit\" name=\"upload\" value=\"".LANG_UPLOAD_SUBMIT."\"/><br/>\n".
          "              </fieldset>\n".
@@ -206,7 +206,7 @@ else
         echo "        <p>\n".
              "          <span class=\"success\">".LANG_UPLOAD_SUCCESS."</span>\n".
              "        </p>\n".
-             "        <form action=\"project_edit.php\" method=\"post\">\n".
+             "        <form action=\"project_edit_type2.php\" method=\"post\">\n".
              "          <fieldset>\n".
              "            <input type=\"submit\" value=\"".LANG_UPLOAD_CONTINUE."\"/>\n".
              "            <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
@@ -286,7 +286,7 @@ function GetProjectConfigurationFile($projectNr)
                 $selectedProject = $selectedProject->textContent;
             }
 
-            $selectedProjectType = "type1";
+            $selectedProjectType = "";
             
             if (isset($attributes['type']) === true)
             {
@@ -298,7 +298,7 @@ function GetProjectConfigurationFile($projectNr)
                 }
             }
             
-            if ($selectedProjectType !== "type1")
+            if ($selectedProjectType !== "type2")
             {
                 echo "            <p>\n".
                      "              <span class=\"error\">".LANG_WRONGPROJECTTYPE."</span>\n".

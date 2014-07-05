@@ -203,17 +203,26 @@ function GetProjectConfigurationFile($projectNr)
                 $selectedProject = $selectedProject->textContent;
             }
             
-            $selectedProjectType = dom_import_simplexml($attributes['type']);
+            $selectedProjectType = "type1";
             
-            if ($selectedProjectType == false)
+            if (isset($attributes['type']) === true)
             {
-                /** @todo Remove default value for legacy config files. */
-                $selectedProjectType = "source_odt";
+                $selectedProjectType = dom_import_simplexml($attributes['type']);
+            
+                if ($selectedProjectType != false)
+                {
+                    $selectedProjectType = $selectedProjectType->textContent;
+                }
             }
-            else
+            
+            if ($selectedProjectType !== "type1")
             {
-                $selectedProjectType = $selectedProjectType->textContent;
-            }
+                echo "            <p>\n".
+                     "              <span class=\"error\">".LANG_WRONGPROJECTTYPE."</span>\n".
+                     "            </p>\n";
+                     
+                return -6;
+            }       
 
             break;
         }
@@ -351,6 +360,16 @@ function PrintInputFiles($projectConfigurationFile)
             isset($attributes['display']) !== true)
         {
             continue;
+        }
+        
+        // Fallback for legacy projects with no type, default is
+        // source_odt.
+        if (isset($attributes['type']) === true)
+        {
+            if ($attributes['type'] !== "source_odt")
+            {
+                continue;
+            }
         }
 
         echo "              <form action=\"project_edit.php\" method=\"post\">\n".

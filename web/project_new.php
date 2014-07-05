@@ -138,11 +138,11 @@ function AddNewProject($title, $type)
     
     if ($_POST['type'] == "1")
     {
-        $project->addAttribute("type", "source_odt");
+        $project->addAttribute("type", "type1");
     }
     else
     {
-        $project->addAttribute("type", "source_epub2");
+        $project->addAttribute("type", "type2");
     }
     
     $success = @file_put_contents("./projects/user_".$_SESSION['user_id']."/projects.xml", $xml->asXML());

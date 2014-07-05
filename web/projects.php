@@ -163,9 +163,26 @@ function ReadProjectList()
         {
             $title = $title->textContent;
         }
+        
+        $type = "type1";
+        
+        if (isset($attributes['type']) === true)
+        {
+            $type = $attributes['type'];
+        }
 
-        echo "            <form action=\"project_edit.php\" method=\"post\">\n".
-             "              <fieldset>\n".
+        switch ($type)
+        {
+        case "type2":
+            echo "            <form action=\"project_edit_type2.php\" method=\"post\">\n";
+            break;
+        case "type1":
+        default:
+            echo "            <form action=\"project_edit.php\" method=\"post\">\n";
+            break;
+        }
+
+        echo "              <fieldset>\n".
              "                <input type=\"submit\" value=\"".LANG_PROJECTEDITBUTTON."\"/> ".htmlspecialchars($title)."\n".
              "                <input type=\"hidden\" name=\"project_nr\" value=\"".$i."\"/>\n".
              "              </fieldset>\n".

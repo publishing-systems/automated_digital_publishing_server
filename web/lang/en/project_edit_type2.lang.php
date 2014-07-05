@@ -16,9 +16,9 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/lang/en/project_edit.lang.php
+ * @file $/web/lang/en/project_edit_type2.lang.php
  * @author Stephan Kreutzer
- * @since 2014-06-08
+ * @since 2014-07-05
  */
 
 
@@ -28,35 +28,15 @@ define("LANG_HEADER", "Project Settings");
 define("LANG_FINDPROJECTSDIRECTORYFAILED", "Project directory is missing.");
 define("LANG_FINDPROJECTLISTFAILED", "Project list is missing.");
 define("LANG_READPROJECTLISTFAILED", "Can't read project list.");
-define("LANG_WRONGPROJECTTYPE", "Wrong project type.");
 define("LANG_FINDPROJECTINPROJECTLISTFAILED", "Can't find project in the project list.");
 define("LANG_WRITEPROJECTCONFIGURATIONFAILED", "Can't create project configuration.");
 define("LANG_FINDPROJECTCONFIGURATIONFAILED", "Can't find project configuration.");
 define("LANG_READPROJECTCONFIGURATIONFAILED", "Can't read project configuration.");
-define("LANG_FINDHTML2EPUB1CONFIGFAILED", "Metadata configuration is missing.");
-define("LANG_READHTML2EPUB1CONFIGURATIONFAILED", "Can't read metadata configuration.");
-define("LANG_WRITEHTML2EPUB1CONFIGURATIONFAILED", "Can't write metadata configuration.");
 define("LANG_UPLOADCAPTION", "Uploaded input files for this project: ");
 define("LANG_UPLOADFILEUPBUTTON", "Up");
 define("LANG_UPLOADFILEDOWNBUTTON", "Down");
 define("LANG_UPLOADFILEDELETEBUTTON", "Delete");
 define("LANG_UPLOADBUTTON", "Upload");
-define("LANG_METADATA_TITLE", "Title");
-define("LANG_METADATA_CREATOR", "Author");
-define("LANG_METADATA_SUBJECT", "Subject");
-define("LANG_METADATA_DESCRIPTION", "Description");
-define("LANG_METADATA_PUBLISHER", "Publisher");
-define("LANG_METADATA_CONTRIBUTOR", "Contributor(s)");
-define("LANG_METADATA_IDENTIFIER", "Unique identifier");
-define("LANG_METADATA_SOURCE", "Source");
-define("LANG_METADATA_LANGUAGE", "Language code according to RFC 3066");
-define("LANG_METADATA_COVERAGE", "Coverage");
-define("LANG_METADATA_RIGHTS", "Rights (please consider to <a href=\"http://www.youtube.com/watch?v=eginMQBWII4\">freely license</a> your works, the <a href=\"license.php\">GNU Affero General Public License 3</a> would do quite well)");
-define("LANG_METADATA_SUBMIT", "Update");
-define("LANG_GENERATEPROJECT", "Generate formats");
-define("LANG_DOWNLOADHTML", "Download HTML");
-define("LANG_DOWNLOADEPUB", "Download EPUB");
-define("LANG_DOWNLOADPDF", "Download PDF");
 define("LANG_DONE", "Done");
 define("LANG_LICENSE", "Licensing");
 

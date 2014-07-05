@@ -16,9 +16,9 @@
  * along with automated_digital_publishing_server. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @file $/web/lang/de/project_upload.lang.php
+ * @file $/web/lang/de/project_upload_type2.lang.php
  * @author Stephan Kreutzer
- * @since 2014-06-08
+ * @since 2014-07-05
  */
 
 
@@ -31,7 +31,7 @@ define("LANG_READPROJECTLISTFAILED", "Die Projektliste konnte nicht eingelesen w
 define("LANG_WRONGPROJECTTYPE", "Falscher Projekttyp.");
 define("LANG_FINDPROJECTINPROJECTLISTFAILED", "Das Projekt konnte nicht in der Projektliste gefunden werden.");
 define("LANG_FINDPROJECTCONFIGURATIONFAILED", "Die Projektkonfiguration ist nicht vorhanden.");
-define("LANG_UPLOAD_DESCRIPTION", "Gegenwärtig werden ausschließlich OpenOffice-/<a href=\"http://de.libreoffice.org\">LibreOffice</a>-Dokumente (Dateiendung *.odt) entgegengenommen, die mit der Dokumentenvorlage „<a href=\"template1.ott\">template1.ott</a>“ erstellt wurden. Mit dem Upload versichern Sie, dass Sie der Urheber des Dokuments sind oder Ihnen die Berechtigung zur Weiterverbreitung vom Rechteinhaber eingeräumt wurde. Wenn der Upload Rechte Dritter verletzen würde, dürfen Sie diese Funktion nicht nutzen! Sie räumen uns ein einfaches Nutzungsrecht ein zum Zwecke der Verarbeitung des hochgeladenen Dokuments und sind damit einverstanden, dass wir weder für Verlust noch Entwendung des Dokuments im Zuge der Datenverarbeitung haften.");
+define("LANG_UPLOAD_DESCRIPTION", "Bitte laden Sie eine EPUB2-Datei hoch. Mit dem Upload versichern Sie, dass Sie der Urheber der Datei und ihrer Inhalte sind oder Ihnen die Berechtigung zur Weiterverbreitung vom Rechteinhaber eingeräumt wurde. Wenn der Upload Rechte Dritter verletzen würde, dürfen Sie diese Funktion nicht nutzen! Sie räumen uns ein einfaches Nutzungsrecht ein zum Zwecke der Verarbeitung und Veröffentlichung der hochgeladenen Datei und ihrer Inhalte, Sie sind ferner damit einverstanden, dass wir weder für Verlust noch Entwendung des Dokuments im Zuge der Datenverarbeitung haften.");
 define("LANG_UPLOAD_SUBMIT", "Upload");
 define("LANG_UPLOAD_GENERAL_ERROR", "Es ist ein allgemeiner Fehler aufgetreten.");
 define("LANG_UPLOAD_SPECIFIC_ERROR_PRE", "Fehler ");
