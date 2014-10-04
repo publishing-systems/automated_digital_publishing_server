@@ -77,17 +77,21 @@ if ($success === true)
 if ($success === true &&
     $inputFilesCount > 0)
 {
-    if (CheckIfAlreadyExtracted($projectConfigurationFile) === false)
+    $alreadyExtracted = CheckIfAlreadyExtracted($projectConfigurationFile);
+    
+    if ($alreadyExtracted === false)
     {
         PrintExtractForm($projectConfigurationFile);
     }
-    else
+    else if ($alreadyExtracted === true)
     {
-        if (CheckIfAlreadyPrepared($projectConfigurationFile) === false)
+        $alreadyPrepared = CheckIfAlreadyPrepared($projectConfigurationFile);
+        
+        if ($alreadyPrepared === false)
         {
             PrintPrepareForm();
         }
-        else
+        else if ($alreadyPrepared === true)
         {
             PrintPreparedFiles($projectConfigurationFile);
         }
