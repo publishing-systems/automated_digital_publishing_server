@@ -67,9 +67,31 @@ if (is_string($projectConfigurationFile) !== true)
     $success = false;
 }
 
+$inputFilesCount = 0;
+
 if ($success === true)
 {
-    PrintInputFiles($projectConfigurationFile);
+    $inputFilesCount = PrintInputFiles($projectConfigurationFile);
+}
+
+if ($success === true &&
+    $inputFilesCount > 0)
+{
+    if (CheckIfAlreadyExtracted($projectConfigurationFile) === false)
+    {
+        PrintExtractForm($projectConfigurationFile);
+    }
+    else
+    {
+        if (CheckIfAlreadyPrepared($projectConfigurationFile) === false)
+        {
+            PrintPrepareForm();
+        }
+        else
+        {
+            PrintPreparedFiles($projectConfigurationFile);
+        }
+    }
 }
 
 echo "            <form action=\"projects.php\" method=\"post\">\n".
@@ -191,14 +213,17 @@ function GetProjectConfigurationFile($projectNr)
     
     if (file_exists("./projects/user_".$_SESSION['user_id']."/".$selectedProject) !== true)
     {
+        $extractionDirectoryID = md5(uniqid(rand(), true));
+
         $success = @file_put_contents("./projects/user_".$_SESSION['user_id']."/".$selectedProject,
                                       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".
-                                      "<!-- This file was created by project_edit_type2.php of automated_digital_publishing_server, which is free software licensed under the GNU Affero General Public License 3 or any later version (see https://github.com/skreutzer/automated_digital_publishing_server/). -->\n".
+                                      "<!-- This file was created by project_edit_type2.php of automated_digital_publishing_server, which is free software licensed under the GNU Affero General Public License 3 or any later version (see https://github.com/publishing-systems/automated_digital_publishing_server/). -->\n".
                                       "<project>\n".
                                       "  <in>\n".
                                       "  </in>\n".
-                                      "  <out>\n".
-                                      "  </out>\n".
+                                      "  <extraction>\n".
+                                      "    <extractionDirectory path=\"".$extractionDirectoryID."\"/>\n".
+                                      "  </extraction>\n".
                                       "</project>\n");
 
         if ($success === false ||
@@ -213,6 +238,165 @@ function GetProjectConfigurationFile($projectNr)
     }
     
     return $selectedProject;
+}
+
+function CheckIfAlreadyExtracted($projectConfigurationFile)
+{
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTSDIRECTORYFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -1;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -2;
+    }
+    
+    $xml = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile);
+
+    if ($xml == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+
+    if (isset($xml->extraction->epub2html1ConfigurationFile) !== true)
+    {
+        return false;
+    }
+
+    if (isset($xml->extraction->extractionDirectory) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONMISSINGEXTRACTIONDIRECTORY."</span>\n".
+             "            </p>\n";
+
+        return -4;
+    }
+
+    if (isset($xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONEXTRACTIONDIRECTORYINCOMPLETE."</span>\n".
+             "            </p>\n";
+
+        return -5;
+    }
+
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONDIRECTORYMISSING."</span>\n".
+             "            </p>\n";
+
+        return -6;
+    }
+
+    if (is_dir("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONDIRECTORYMISSING."</span>\n".
+             "            </p>\n";
+
+        return -7;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']."/index.xml") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONNOINDEXXMLRESULTFILE."</span>\n".
+             "            </p>\n";
+
+        return -8;
+    }
+
+    return true;
+}
+
+function CheckIfAlreadyPrepared($projectConfigurationFile)
+{
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTSDIRECTORYFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -1;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -2;
+    }
+    
+    $xml = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile);
+
+    if ($xml == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+
+    if (isset($xml->extraction->extractionDirectory) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONMISSINGEXTRACTIONDIRECTORY."</span>\n".
+             "            </p>\n";
+
+        return -4;
+    }
+
+    if (isset($xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONEXTRACTIONDIRECTORYINCOMPLETE."</span>\n".
+             "            </p>\n";
+
+        return -5;
+    }
+
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONDIRECTORYMISSING."</span>\n".
+             "            </p>\n";
+
+        return -6;
+    }
+
+    if (is_dir("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONDIRECTORYMISSING."</span>\n".
+             "            </p>\n";
+
+        return -7;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']."/transformation_list.xml") !== true)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 function PrintInputFiles($projectConfigurationFile)
@@ -328,6 +512,184 @@ function PrintInputFiles($projectConfigurationFile)
     }
     
     echo "            </div>\n";
+    
+    return $inputFilesCount;
+}
+
+function PrintPreparedFiles($projectConfigurationFile)
+{
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTSDIRECTORYFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -1;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -2;
+    }
+    
+    $xml = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile);
+
+    if ($xml == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+
+    if (isset($xml->extraction->extractionDirectory) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONMISSINGEXTRACTIONDIRECTORY."</span>\n".
+             "            </p>\n";
+
+        return -4;
+    }
+
+    if (isset($xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONEXTRACTIONDIRECTORYINCOMPLETE."</span>\n".
+             "            </p>\n";
+
+        return -5;
+    }
+
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONDIRECTORYMISSING."</span>\n".
+             "            </p>\n";
+
+        return -6;
+    }
+
+    if (is_dir("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONDIRECTORYMISSING."</span>\n".
+             "            </p>\n";
+
+        return -7;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']."/index.xml") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTIONINDEXXMLRESULTFILEMISSING."</span>\n".
+             "            </p>\n";
+
+        return -8;
+    }
+
+    $xmlExtractedList = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']."/index.xml");
+
+    if ($xmlExtractedList == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READEXTRACTIONINDEXXMLRESULTFILEFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -9;
+    }
+
+    $htmlFilesCount = count($xmlExtractedList);
+
+    if ($htmlFilesCount <= 0)
+    {
+        return 0;
+    }
+
+    for ($i = 0; $i < $htmlFilesCount; $i++)
+    {
+        echo "            <form action=\"project_download_type2.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                ".LANG_HTMLPAGECAPTION." ".($i + 1)." <input type=\"submit\" value=\"".LANG_DOWNLOADHTML."\"/>\n".
+             "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+             "                <input type=\"hidden\" name=\"file\" value=\"".$i."\"/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    }
+
+    return 0;
+}
+
+function PrintExtractForm($projectConfigurationFile)
+{
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTSDIRECTORYFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -1;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -2;
+    }
+    
+    $xml = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile);
+
+    if ($xml == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -3;
+    }
+
+    if (isset($xml->in) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -4;
+    }
+    
+    if (isset($xml->in->inFile) === true)
+    {
+        echo "              <form action=\"project_generate_type2.php\" method=\"post\">\n".
+             "                <fieldset>\n".
+             "                  <input type=\"submit\" name=\"extract\" value=\"".LANG_EXTRACTBUTTON."\"/>\n".
+             "                  <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+             "                </fieldset>\n".
+             "              </form>\n";
+    }
+
+    return 0;
+}
+
+/**
+ * @attention Assumes that CheckIfAlreadyExtracted() was checked.
+ */
+function PrintPrepareForm()
+{
+    echo "              <form action=\"project_generate_type2.php\" method=\"post\">\n".
+         "                <fieldset>\n".
+         "                  <input type=\"submit\" name=\"prepare\" value=\"".LANG_PREPAREBUTTON."\"/>\n".
+         "                  <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+         "                </fieldset>\n".
+         "              </form>\n";
+
+    return 0;
 }
 
 

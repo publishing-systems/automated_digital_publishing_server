@@ -32,11 +32,21 @@ define("LANG_FINDPROJECTINPROJECTLISTFAILED", "Can't find project in the project
 define("LANG_WRITEPROJECTCONFIGURATIONFAILED", "Can't create project configuration.");
 define("LANG_FINDPROJECTCONFIGURATIONFAILED", "Can't find project configuration.");
 define("LANG_READPROJECTCONFIGURATIONFAILED", "Can't read project configuration.");
+define("LANG_PROJECTCONFIGURATIONMISSINGEXTRACTIONDIRECTORY", "The project configuration is missing the extraction directory.");
+define("LANG_PROJECTCONFIGURATIONEXTRACTIONDIRECTORYINCOMPLETE", "The extraction directory setting in the project configuration is incomplete.");
+define("LANG_EXTRACTIONDIRECTORYMISSING", "The extraction directory is missing.");
+define("LANG_EXTRACTIONNOINDEXXMLRESULTFILE", "The extraction directory is missing the result list.");
+define("LANG_EXTRACTIONINDEXXMLRESULTFILEMISSING", "The result list of the EPUB extraction is missing.");
+define("LANG_READEXTRACTIONINDEXXMLRESULTFILEFAILED", "Can't read the EPUB extraction result list.");
 define("LANG_UPLOADCAPTION", "Uploaded input files for this project: ");
 define("LANG_UPLOADFILEUPBUTTON", "Up");
 define("LANG_UPLOADFILEDOWNBUTTON", "Down");
 define("LANG_UPLOADFILEDELETEBUTTON", "Delete");
 define("LANG_UPLOADBUTTON", "Upload");
+define("LANG_EXTRACTBUTTON", "Extract");
+define("LANG_PREPAREBUTTON", "Prepare");
+define("LANG_DOWNLOADHTML", "View");
+define("LANG_HTMLPAGECAPTION", "HTML");
 define("LANG_DONE", "Done");
 define("LANG_LICENSE", "Licensing");
 

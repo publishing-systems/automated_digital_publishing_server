@@ -43,10 +43,10 @@ function getHTMLLicenseNotification($cssClassLicensenotification = "licensenotif
            "  You should have received a copy of the GNU Affero General Public License 3\n".
            "  along with automated_digital_publishing_server. If not, see &lt;<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>&gt;.<br/>\n".
            "  <br/>\n".
-           "  The complete source code is available at &lt;<a href=\"https://github.com/skreutzer/automated_digital_publishing_server/\">https://github.com/skreutzer/automated_digital_publishing_server/</a>&gt;.<br/>\n".
+           "  The complete source code is available at &lt;<a href=\"https://github.com/publishing-systems/automated_digital_publishing_server/\">https://github.com/publishing-systems/automated_digital_publishing_server/</a>&gt;.<br/>\n".
            "</p>\n".
            "<p class=\"".$cssClassLicensenotification."\">\n".
-           "  automated_digital_publishing (C) 2014  Stephan Kreutzer<br/>\n".
+           "  automated_digital_publishing (C) 2014  Stephan Kreutzer, Christian d'Heureuse<br/>\n".
            "  <br/>\n".
            "  automated_digital_publishing is free software: you can redistribute it and/or modify\n".
            "  it under the terms of the GNU Affero General Public License version 3 or any later version,\n".
@@ -60,7 +60,7 @@ function getHTMLLicenseNotification($cssClassLicensenotification = "licensenotif
            "  You should have received a copy of the GNU Affero General Public License 3\n".
            "  along with automated_digital_publishing. If not, see &lt;<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>&gt;.<br/>\n".
            "  <br/>\n".
-           "  The complete source code is available at &lt;<a href=\"https://github.com/skreutzer/automated_digital_publishing/\">https://github.com/skreutzer/automated_digital_publishing/</a>&gt;.<br/>\n".
+           "  The complete source code is available at &lt;<a href=\"https://github.com/publishing-systems/automated_digital_publishing/\">https://github.com/publishing-systems/automated_digital_publishing/</a>&gt;.<br/>\n".
            "</p>\n".
            "<p class=\"".$cssClassLicensenotification."\">\n".
            "  Some parts (C) World Wide Web Consortium, International Organization for Standardization<br/>\n".

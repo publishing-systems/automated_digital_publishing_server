@@ -24,9 +24,32 @@
 
 
 
-session_start();
+if (empty($_SESSION) === true)
+{
+    @session_start();
+}
 
 require_once("./libraries/languagelib.inc.php");
+
+if (isset($_GET['lang']) === true)
+{
+    $currentLanguage = getDefaultLanguage();
+    $languages = getLanguageList();
+
+    if (is_array($languages) === true)
+    {
+        if (count($languages) > 0)
+        {
+            if (array_key_exists($_GET['lang'], $languages) === true)
+            {
+                $currentLanguage = $_GET['lang'];
+                $_SESSION['language'] = $currentLanguage;
+                unset($_GET['lang']);
+            }
+        }
+    }
+}
+
 require_once(getLanguageFile("index"));
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".
