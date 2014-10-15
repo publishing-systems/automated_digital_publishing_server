@@ -77,21 +77,17 @@ if ($success === true)
 if ($success === true &&
     $inputFilesCount > 0)
 {
-    $alreadyExtracted = CheckIfAlreadyExtracted($projectConfigurationFile);
-    
-    if ($alreadyExtracted === false)
+    if (CheckIfAlreadyExtracted($projectConfigurationFile) === false)
     {
         PrintExtractForm($projectConfigurationFile);
     }
-    else if ($alreadyExtracted === true)
+    else
     {
-        $alreadyPrepared = CheckIfAlreadyPrepared($projectConfigurationFile);
-        
-        if ($alreadyPrepared === false)
+        if (CheckIfAlreadyPrepared($projectConfigurationFile) === false)
         {
             PrintPrepareForm();
         }
-        else if ($alreadyPrepared === true)
+        else
         {
             PrintPreparedFiles($projectConfigurationFile);
         }
@@ -618,7 +614,24 @@ function PrintPreparedFiles($projectConfigurationFile)
     {
         echo "            <form action=\"project_download_type2.php\" method=\"post\">\n".
              "              <fieldset>\n".
-             "                ".LANG_HTMLPAGECAPTION." ".($i + 1)." <input type=\"submit\" value=\"".LANG_DOWNLOADHTML."\"/>\n".
+             "                ".LANG_HTMLPAGECAPTION." ".($i + 1)."\n".
+             "                <input type=\"submit\" value=\"".LANG_DOWNLOADHTML."\"/>\n".
+             "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+             "                <input type=\"hidden\" name=\"file\" value=\"".$i."\"/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    }
+    
+    echo "            <p>\n".
+         "              ".LANG_PUBLISHNOTICE."\n".
+         "            </p>\n";
+
+    for ($i = 0; $i < $htmlFilesCount; $i++)
+    {
+        echo "            <form action=\"project_generate_type2.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                ".LANG_HTMLPAGECAPTION." ".($i + 1)."\n".
+             "                <input type=\"submit\" name=\"publish\" value=\"".LANG_PUBLISH."\"/>\n".
              "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
              "                <input type=\"hidden\" name=\"file\" value=\"".$i."\"/>\n".
              "              </fieldset>\n".

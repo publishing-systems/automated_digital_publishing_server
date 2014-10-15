@@ -52,6 +52,16 @@ define("LANG_READEXTRACTIONINDEXXMLRESULTFILEFAILED", "Die Ergebnis-Liste der EP
 define("LANG_EXTRACTEDEPUBEMPTY", "Die entpackte EPUB-Datei enthält keine HTML-Dateien.");
 define("LANG_WRITETRANSFORMATIONCONFIGURATIONFAILED", "Die Transformations-Konfiguration konnte nicht geschrieben werden.");
 define("LANG_PREPAREHTMLSUCCESS", "Die Vorbereitung wurde erfolgreich abgeschlossen.");
+define("LANG_HTMLTOWORDPRESSFEATURENOTCONFIGURED", "Diese Funktion wurde nicht konfiguriert und steht dementsprechend nicht zur Verfügung.");
+define("LANG_FILENUMBERNOTANUMBER", "Die Nummer der zu übertragenden HTML-Datei ist ungültig.");
+define("LANG_FILENUMBERFILEDOESNTEXIST", "Zur angegebenen Datei-Nummer existiert keine dazugehörige vorbereitete HTML-Datei.");
+define("LANG_WRITEJOBFILEFAILED", "Die Konfigurationsdatei für diese Übermittlung nach WordPress konnte nicht geschrieben werden.");
+define("LANG_RESULTINCOMPLETE", "Die Antwort der WordPress-Installation ist unvollständig.");
+define("LANG_READRESULTXMLPROBLEM", "Die Antwort der WordPress-Installation kann nicht eingelesen werden.");
+define("LANG_RESULTXMLINCOMPLETE", "In der Antwort der WordPress-Installation fehlen Angaben.");
+define("LANG_READRESULTXMLVALUEERROR", "Aus der Antwort der WordPress-Installation konnte eine Angabe nicht ausgelesen werden.");
+define("LANG_POSTIDISNTNUMERIC", "Die von WordPress empfangene ID ist nicht numerisch.");
+define("LANG_HTMLTOWORDPRESSUPLOADSUCCESS", "Die HTML-Datei wurde erfolgreich an die konfigurierte WordPress-Installation übermittelt und hat dort folgende ID erhalten:");
 define("LANG_CONTINUE", "Weiter");
 define("LANG_LEAVE", "Verlassen");
 define("LANG_LICENSE", "Lizenzierung");

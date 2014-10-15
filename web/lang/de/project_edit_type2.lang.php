@@ -46,6 +46,8 @@ define("LANG_UPLOADBUTTON", "Hinzufügen");
 define("LANG_EXTRACTBUTTON", "Entpacken");
 define("LANG_PREPAREBUTTON", "Vorbereiten");
 define("LANG_DOWNLOADHTML", "Anzeigen");
+define("LANG_PUBLISHNOTICE", "Mit der Schaltfläche „Veröffentlichen“ wird, sofern diese Funktionalität konfiguriert ist, der vorbereitete Eintrag an eine WordPress-Seite übermittelt, wo unter Umständen auch eine sofortige Veröffentlichung im Internet stattfinden kann. Mit Betätigen der Schaltfläche versichern Sie, dass Sie der Urheber des Werkes sind oder Ihnen die Berechtigung zur Weiterverbreitung vom Rechteinhaber eingeräumt wurde. Wenn die Veröffentlichung Rechte Dritter verletzen würde, dürfen Sie diese Funktion nicht nutzen! Sie nehmen außerdem zur Kenntnis, dass das Werk unverschlüsselt übertragen wird und je nach Standort dieser Software eine Übermittlung über öffentliche Netzwerksegmente stattfinden kann.");
+define("LANG_PUBLISH", "Veröffentlichen");
 define("LANG_HTMLPAGECAPTION", "HTML");
 define("LANG_DONE", "Fertig");
 define("LANG_LICENSE", "Lizenzierung");

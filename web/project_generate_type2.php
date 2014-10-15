@@ -122,6 +122,31 @@ else if ($success === true &&
         $success = false;
     }
 }
+else if ($success === true &&
+         isset($_POST['publish']) === true &&
+         isset($_POST['file']) === true)
+{
+    if (PublishHTML($projectConfigurationFile, $_POST['file']) === 0)
+    {
+        echo "            <form action=\"project_edit_type2.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                <input type=\"submit\" value=\"".LANG_LEAVE."\"/>\n".
+             "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    }
+    else
+    {
+        echo "            <form action=\"project_edit_type2.php\" method=\"post\">\n".
+             "              <fieldset>\n".
+             "                <input type=\"submit\" value=\"".LANG_LEAVE."\"/>\n".
+             "                <input type=\"hidden\" name=\"project_nr\" value=\"".$_POST['project_nr']."\"/>\n".
+             "              </fieldset>\n".
+             "            </form>\n";
+    
+        $success = false;
+    }
+}
 
 echo "          </div>\n".
      "        </div>\n".
@@ -586,6 +611,275 @@ function PrepareHTML($projectConfigurationFile)
         }
     }
 
+    return 0;
+}
+
+function PublishHTML($projectConfigurationFile, $fileNumber)
+{
+    if (is_numeric($fileNumber) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FILENUMBERNOTANUMBER."</span>\n".
+             "            </p>\n";
+        
+        return -1;
+    }
+    
+    $fileNumber = (int)$fileNumber;
+    
+    if (file_exists("./projects/jobfile.xml") !== true)
+    {
+        echo "            <p>\n".
+             "              ".LANG_HTMLTOWORDPRESSFEATURENOTCONFIGURED."\n".
+             "            </p>\n";
+             
+        return 1;
+    }
+
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTSDIRECTORYFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -2;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FINDPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+        
+        return -3;
+    }
+
+    $xml = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$projectConfigurationFile);
+
+    if ($xml == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READPROJECTCONFIGURATIONFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -4;
+    }
+
+    if (isset($xml->extraction->epub2html1ConfigurationFile) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_NOTEXTRACTED."</span>\n".
+             "            </p>\n";
+    
+        return -5;
+    }
+
+    if (isset($xml->extraction->extractionDirectory) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONMISSINGEXTRACTIONDIRECTORY."</span>\n".
+             "            </p>\n";
+
+        return -6;
+    }
+
+    if (isset($xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_PROJECTCONFIGURATIONEXTRACTIONDIRECTORYINCOMPLETE."</span>\n".
+             "            </p>\n";
+
+        return -7;
+    }
+
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_NOTEXTRACTED."</span>\n".
+             "            </p>\n";
+
+        return -8;
+    }
+
+    if (is_dir("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_NOTEXTRACTED."</span>\n".
+             "            </p>\n";
+
+        return -9;
+    }
+    
+    if (file_exists("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']."/index.xml") !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_NOTEXTRACTED."</span>\n".
+             "            </p>\n";
+
+        return -10;
+    }
+
+    $xmlExtractedList = @simplexml_load_file("./projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']."/index.xml");
+
+    if ($xmlExtractedList == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READEXTRACTIONINDEXXMLRESULTFILEFAILED."</span>\n".
+             "            </p>\n";
+    
+        return -11;
+    }
+
+    $htmlFilesCount = count($xmlExtractedList);
+
+    if ($htmlFilesCount <= 0)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_EXTRACTEDEPUBEMPTY."</span>\n".
+             "            </p>\n";
+    
+        return 0;
+    }
+    
+    if ($fileNumber >= $htmlFilesCount)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FILENUMBERFILEDOESNTEXIST."</span>\n".
+             "            </p>\n";
+    
+        return -12;
+    }
+    
+    $jobfile = @simplexml_load_file("./projects/jobfile.xml");
+    
+    if ($jobfile == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_HTMLTOWORDPRESSFEATURENOTCONFIGURED."</span>\n".
+             "            </p>\n";
+    
+        return -13;
+    }
+    
+    $settingInputHTMLFileName = "input-html-file";
+
+    if (isset($jobfile->$settingInputHTMLFileName) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_HTMLTOWORDPRESSFEATURENOTCONFIGURED."</span>\n".
+             "            </p>\n";
+    
+        return -14;
+    }
+
+    $jobfile->$settingInputHTMLFileName = dirname(__FILE__)."/projects/user_".$_SESSION['user_id']."/".$xml->extraction->extractionDirectory['path']."/".$xmlExtractedList->file[$fileNumber]."_transformed.html";
+
+    if (file_exists($jobfile->$settingInputHTMLFileName) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_FILENUMBERFILEDOESNTEXIST."</span>\n".
+             "            </p>\n";
+    
+        return -15;
+    }
+
+    $success = @file_put_contents("./projects/user_".$_SESSION['user_id']."/jobfile.xml", $jobfile->asXML());
+    
+    if ($success === false ||
+        $success == 0)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_WRITEJOBFILEFAILED."</span>\n".
+             "            </p>\n";
+
+        return -16;
+    }
+
+    require_once("./automated_digital_publishing/html2wordpress/html2wordpress1/html2wordpress1_caller.inc.php");
+
+    $result = html2wordpress1_caller(dirname(__FILE__)."/projects/user_".$_SESSION['user_id']."/jobfile.xml",
+                                     dirname(__FILE__)."/projects/user_".$_SESSION['user_id']."/");
+
+    if (is_numeric($result) == true)
+    {
+        if ($result === -4)
+        {
+            echo "            <p>\n".
+                 "              <span>".LANG_BUSY."</span>\n".
+                 "            </p>\n";
+             
+             return -17;
+        }
+        else
+        {
+            echo "            <p>\n".
+                 "              <span class=\"error\">".LANG_GENERALERROR."</span>\n".
+                 "            </p>\n";
+
+            return -18;
+        }
+    }
+
+    $resultXMLPos = strpos($result, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+    
+    if ($resultXMLPos <= 0)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_RESULTINCOMPLETE."</span>\n".
+             "            </p>\n";
+
+        return -19;
+    }
+    
+    $resultXML = substr($result, $resultXMLPos);
+    $resultXML = @simplexml_load_string($resultXML);
+    
+    if ($resultXML == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READRESULTXMLPROBLEM."</span>\n".
+             "            </p>\n";
+    
+        return -20;
+    }
+    
+    if (isset($resultXML->params->param[0]->value->string) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_RESULTXMLINCOMPLETE."</span>\n".
+             "            </p>\n";
+
+        return -21;
+    }
+    
+    $postID = dom_import_simplexml($resultXML->params->param[0]->value->string);
+    
+    if ($postID == false)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_READRESULTXMLVALUEERROR."</span>\n".
+             "            </p>\n";
+
+        return -22;
+    }
+    else
+    {
+        $postID = $postID->textContent;
+    }
+    
+    if (is_numeric($postID) !== true)
+    {
+        echo "            <p>\n".
+             "              <span class=\"error\">".LANG_POSTIDISNTNUMERIC."</span>\n".
+             "            </p>\n";
+
+        return -23;
+    }
+    
+    echo "            <p>\n".
+         "              <span class=\"success\">".LANG_HTMLTOWORDPRESSUPLOADSUCCESS." ".$postID."</span>\n".
+         "            </p>\n";
+    
     return 0;
 }
 

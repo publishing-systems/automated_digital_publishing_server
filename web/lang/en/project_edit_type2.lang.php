@@ -46,6 +46,8 @@ define("LANG_UPLOADBUTTON", "Upload");
 define("LANG_EXTRACTBUTTON", "Extract");
 define("LANG_PREPAREBUTTON", "Prepare");
 define("LANG_DOWNLOADHTML", "View");
+define("LANG_PUBLISH", "Publish");
+define("LANG_PUBLISHNOTICE", "By pressing the button “Publish”, the prepared HTML entry will get transmitted to a WordPress site, if this feature is configured, where immediate publishing to the Internet might take place. By pressing the button, you confirm that you're the copyright owner of the work or that you've got permission to distribute it. If the act of publishing would violate the rights of others, you're not allowed to use this function! You acknowledge, that the transmitted data won't get encrypted, therefore, depending on the location of this software, transmission over public network segments may take place.");
 define("LANG_HTMLPAGECAPTION", "HTML");
 define("LANG_DONE", "Done");
 define("LANG_LICENSE", "Licensing");

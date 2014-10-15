@@ -52,9 +52,19 @@ define("LANG_READEXTRACTIONINDEXXMLRESULTFILEFAILED", "Can't read the EPUB extra
 define("LANG_EXTRACTEDEPUBEMPTY", "The extracted EPUB file doesn't contain any HTML file.");
 define("LANG_WRITETRANSFORMATIONCONFIGURATIONFAILED", "Can't write the transformation configuration file.");
 define("LANG_PREPAREHTMLSUCCESS", "The preparation was completed successfully.");
+define("LANG_HTMLTOWORDPRESSFEATURENOTCONFIGURED", "This feature isn't configured.");
+define("LANG_FILENUMBERNOTANUMBER", "The number of the HTML file to transmit is invalid.");
+define("LANG_FILENUMBERFILEDOESNTEXIST", "There is no corresponding prepared HTML file for the given file number.");
+define("LANG_WRITEJOBFILEFAILED", "Couldn't write the configuration file for this WordPress transmission job.");
+define("LANG_RESULTINCOMPLETE", "The response of the WordPress installation is incomplete.");
+define("LANG_READRESULTXMLPROBLEM", "Can't read the response of the WordPress installation.");
+define("LANG_RESULTXMLINCOMPLETE", "Values are missing in the response of the WordPress installation.");
+define("LANG_READRESULTXMLVALUEERROR", "Can't read a value from the response of the WordPress installation.");
+define("LANG_POSTIDISNTNUMERIC", "The ID received from WordPress isn't numeric.");
+define("LANG_HTMLTOWORDPRESSUPLOADSUCCESS", "Transmission of the HTML file to the configured WordPress installation was successful and got the ID:");
 define("LANG_CONTINUE", "Continue");
 define("LANG_LEAVE", "Leave");
-define("LANG_LICENSE", "Lizenzierung");
+define("LANG_LICENSE", "Licensing");
 
 
 
