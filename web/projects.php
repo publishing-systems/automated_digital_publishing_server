@@ -69,6 +69,8 @@ if ($success === 0)
          "            </form>\n";
 }
 
+PrintMessages();
+
 echo "          </div>\n".
      "        </div>\n".
      "        <div class=\"footerbox\">\n".
@@ -192,6 +194,47 @@ function ReadProjectList()
     }
     
     return 0;
+}
+
+function PrintMessages()
+{
+    require_once("./libraries/database.inc.php");
+
+    if (Database::Get()->IsConnected() !== true)
+    {
+        return;
+    }
+
+
+    $messages = NULL;
+
+    $result = Database::Get()->Query("SELECT `message`\n".
+                                     "FROM `".Database::Get()->GetPrefix()."messages`\n".
+                                     "WHERE `id_user`=?\n",
+                                     array($_SESSION['user_id']),
+                                     array(Database::TYPE_INT));
+
+    if (is_array($result) !== true)
+    {
+        return;
+    }
+
+
+    if (count($result) === 0)
+    {
+        return;
+    }
+    else
+    {
+        echo "            <hr/>\n";
+        
+        foreach ($result as $message)
+        {
+            echo "            <div>\n".
+                 "              ".$message['message']."\n".
+                 "            </div>\n";
+        }
+    }
 }
 
 ?>

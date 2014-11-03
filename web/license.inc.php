@@ -46,7 +46,7 @@ function getHTMLLicenseNotification($cssClassLicensenotification = "licensenotif
            "  The complete source code is available at &lt;<a href=\"https://github.com/publishing-systems/automated_digital_publishing_server/\">https://github.com/publishing-systems/automated_digital_publishing_server/</a>&gt;.<br/>\n".
            "</p>\n".
            "<p class=\"".$cssClassLicensenotification."\">\n".
-           "  automated_digital_publishing (C) 2014  Stephan Kreutzer, Christian d'Heureuse<br/>\n".
+           "  automated_digital_publishing (C) 2014  Stephan Kreutzer, Christian d'Heureuse, drcrane<br/>\n".
            "  <br/>\n".
            "  automated_digital_publishing is free software: you can redistribute it and/or modify\n".
            "  it under the terms of the GNU Affero General Public License version 3 or any later version,\n".

@@ -492,7 +492,42 @@ else if ($step == 4)
                         "  `password` varchar(255) COLLATE utf8_bin NOT NULL,".
                         "  PRIMARY KEY (`id`),".
                         "  UNIQUE KEY `name` (`name`)".
-                        ") ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
+                        ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
+
+                if (Database::Get()->ExecuteUnsecure($sql) !== true)
+                {
+                    $success = false;
+                }
+            }
+            
+            // Table messages
+
+            if ($success === true)
+            {
+                if ($dropExistingTables === true)
+                {
+                    if (Database::Get()->ExecuteUnsecure("DROP TABLE IF EXISTS ".Database::Get()->GetPrefix()."messages") !== true)
+                    {
+                        $success = false;
+                    }
+                }
+            }
+
+            if ($success === true)
+            {
+                $sql = "CREATE TABLE ";
+
+                if ($keepExistingTables === true)
+                {
+                    $sql .= "IF NOT EXISTS ";
+                }
+                
+                $sql .= "`".Database::Get()->GetPrefix()."messages` (".
+                        "  `id` int(11) NOT NULL AUTO_INCREMENT,".
+                        "  `message` text COLLATE utf8_bin NOT NULL,".
+                        "  `id_user` int(11) NOT NULL,".
+                        "  PRIMARY KEY (`id`)".
+                        ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";
 
                 if (Database::Get()->ExecuteUnsecure($sql) !== true)
                 {
