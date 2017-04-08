@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2013-2016  Christian Huke, Stephan Kreutzer
+/* Copyright (C) 2013-2017  Christian Huke, Stephan Kreutzer
  *
  * This file is part of automated_digital_publishing_server.
  *
@@ -280,7 +280,7 @@ else if ($step == 3)
                     "\n".
                     "try\n".
                     "{\n".
-                    "    \$pdo = @new PDO('mysql:host=".$host.";dbname=".$database.";charset=utf8', \"".$username."\", \"".$password."\");\n".
+                    "    \$pdo = @new PDO('mysql:host=".$host.";dbname=".$database.";charset=utf8', \"".$username."\", \"".$password."\", array(PDO::MYSQL_ATTR_INIT_COMMAND => \"SET NAMES utf8\"));\n".
                     "}\n".
                     "catch (PDOException \$ex)\n".
                     "{\n".
